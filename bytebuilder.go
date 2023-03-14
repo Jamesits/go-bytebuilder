@@ -12,12 +12,10 @@ type ByteBuilder struct {
 }
 
 // WriteObject writes any object's internal memory representation into the buffer.
-func (b *ByteBuilder) WriteObject(src any) (n int, err error) {
-	bLength := reflect.TypeOf(src).Size()
-	var s []uint8
-	sh := (*reflect.SliceHeader)(unsafe.Pointer(&s))
-	sh.Cap = int(bLength)
-	sh.Len = int(bLength)
-	sh.Data = uintptr((*emptyInterface)(unsafe.Pointer(&src)).val)
-	return b.Write(s)
+// Arguments:
+// - obj: the source object itself
+func (b *ByteBuilder) WriteObject(obj any) (n int, err error) {
+	objectSize := reflect.TypeOf(obj).Size()
+	s := newArbitraryByteArray(objectSize, uintptr((*emptyInterface)(unsafe.Pointer(&obj)).val))
+	return b.Write(*s)
 }
