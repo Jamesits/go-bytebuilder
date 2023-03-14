@@ -2,6 +2,8 @@
 
 A `bytes.Buffer` with the capability of writing any object's exact memory layout (with every padding) into it.
 
+[![Go Reference](https://pkg.go.dev/badge/github.com/Jamesits/go-bytebuilder.svg)](https://pkg.go.dev/github.com/Jamesits/go-bytebuilder)
+
 ## Usage
 
 ```go
@@ -26,9 +28,15 @@ func main() {
 	}
 	fmt.Printf("size of s is %d\n", unsafe.Sizeof(s))
 	
+	// using the ByteBuilder
 	var bb bytebuilder.ByteBuilder
 	_, _ = bb.WriteObject(s)
 	fmt.Printf("size of bb is %d\n", bb.Len())
+	
+	// using the Writer wrapper
+	b := &bytes.Buffer{}
+	_, _ = bytebuilder.WriteObject(b, &s)
+	fmt.Printf("size of b is %d\n", b.Len())
 }
 ```
 
