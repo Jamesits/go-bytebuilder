@@ -102,6 +102,45 @@ func main() {
 }
 ```
 
+### `Marshal` / `Unmarshal`
+
+```go
+package main
+
+import (
+	"fmt"
+	"github.com/jamesits/go-bytebuilder"
+)
+
+type SomeStruct struct {
+	Value1 uint16
+	// there is an implicit padding
+	Value2 uint64
+}
+
+func main() {
+	var err error
+
+	s := SomeStruct{
+		Value1: 100,
+		Value2: 500,
+	}
+
+	b, err := bytebuilder.Marshal(&s)
+	if err != nil {
+		panic(err)
+	}
+
+	var s2 SomeStruct
+	err = bytebuilder.Unmarshal(b, &s2)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Printf("s2.Value1 = %d, s2.Value2 = %d\n", s2.Value1, s2.Value2)
+}
+```
+
 ### Real-world Examples
 
 Say we have the following type definitions in C:
@@ -144,17 +183,17 @@ type Class struct {
 }
 
 func main() {
-	class := Class {
+	class := Class{
 		Name: [32]byte{'c', 'l', 'a', 's', 's'},
 		StudentCount: 2,
 	}
 	
-	alice := Student {
+	alice := Student{
 		Id: 1,
 		Name: [32]byte{'A', 'l', 'i', 'c', 'e'},
 	}
 	
-	bob := Student {
+	bob := Student{
 		Id: 2,
 		Name: [32]byte{'B', 'o', 'b'},
 	}
