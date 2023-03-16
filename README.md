@@ -147,17 +147,17 @@ func main() {
 	class := Class {
 		Name: [32]byte{'c', 'l', 'a', 's', 's'},
 		StudentCount: 2,
-    }
+	}
 	
 	alice := Student {
 		Id: 1,
 		Name: [32]byte{'A', 'l', 'i', 'c', 'e'},
-    }
+	}
 	
 	bob := Student {
 		Id: 2,
 		Name: [32]byte{'B', 'o', 'b'},
-    }
+	}
 	
 	var buf bytes.Buffer
 	_, _ = bytebuilder.WriteObject(&buf, &class)
