@@ -9,9 +9,17 @@ A `bytes.Buffer` with the capability of writing any object's exact memory layout
 This is not a proper serialization protocol implementation, and has never intended to be one. Any data acquired with 
 this method is usually only meaningful under the same CPU architecture, the same OS, AND the same compiler.
 
+Cases when you should NOT use this library:
+- If you want to dump structs to a persistent storage only to restore them later in the same program, use [encoding/gob](https://pkg.go.dev/encoding/gob).
+- To encode/decode between basic types and a binary buffer, use [encoding/binary](https://pkg.go.dev/encoding/binary).
+- For reading/writing machine-readable config files, use [mapstructure](https://pkg.go.dev/github.com/mitchellh/mapstructure), [encoding/json](https://pkg.go.dev/encoding/json), or [encoding/xml](https://pkg.go.dev/encoding/xml).
+- For exchanging data between network services, use [Protocol Buffers](https://pkg.go.dev/google.golang.org/protobuf) or [Cap'n Proto](https://github.com/capnproto/go-capnp).
+
 ## Usage
 
 ### `bytebuilder.WriteObject`
+
+Takes a `io.Writer` and a pointer to an object. Writes the object into the Writer. 
 
 `bytebuilder.WriteObject` is well-defined (relies only on public methods) although unsafe (bypasses type safety). 
 Generics support is required, so this function is only available on Golang 1.18+.
@@ -56,7 +64,8 @@ func main() {
 `bytebuilder.ByteBuilder{}.WriteObject` writes the object into the buffer. It relies on internal knowledge of the 
 Golang runtime implementation and unsafe. It does not require generics, and works on all recent Golang versions. 
 
-Other methods of a `ByteBuilder` works exactly the same as a `bytes.Buffer`.
+Other methods of a `ByteBuilder` works exactly the same as a `bytes.Buffer`, so you can use `Write()` or other methods 
+for certain use cases.
 
 ```go
 package main
