@@ -3,6 +3,7 @@ package bytebuilder
 import (
 	"github.com/stretchr/testify/assert"
 	"testing"
+	"unsafe"
 )
 
 type SomeStruct struct {
@@ -21,6 +22,8 @@ func TestMarshalUnmarshal(t *testing.T) {
 
 	b, err := Marshal(&s1)
 	assert.NoError(t, err)
+	s1Size := int(unsafe.Sizeof(s1))
+	assert.EqualValues(t, len(b), s1Size)
 
 	var s2 SomeStruct
 	err = Unmarshal(b, &s2)
@@ -28,4 +31,11 @@ func TestMarshalUnmarshal(t *testing.T) {
 
 	assert.EqualValues(t, s1.Value1, s2.Value1)
 	assert.EqualValues(t, s1.Value2, s2.Value2)
+}
+
+func TestUnmarshalDifferentSize(t *testing.T) {
+	b := make([]byte, 128) // arbitrary large number
+	var s SomeStruct
+	err := Unmarshal(b, &s)
+	assert.ErrorIs(t, err, SizeMismatch)
 }
