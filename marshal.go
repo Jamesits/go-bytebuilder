@@ -18,14 +18,14 @@ func Marshal[T any](v *T) ([]byte, error) {
 }
 
 // Unmarshal puts the data into the value pointed to by v.
-func Unmarshal[T any](data []byte, v *T) error {
+func Unmarshal[T any](data []byte, v *T) (err error) {
 	dataSize := uintptr(len(data))
 	objectSize := unsafe.Sizeof(*v)
 	if dataSize != objectSize {
-		return SizeMismatch
+		err = SizeMismatch
 	}
 
 	s := newArbitraryByteArray(objectSize, uintptr(unsafe.Pointer(v)))
 	copy(*s, data)
-	return nil
+	return
 }
