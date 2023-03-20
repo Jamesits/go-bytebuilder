@@ -15,6 +15,8 @@ Cases when you should NOT use this library:
 - For reading/writing machine-readable config files, use [mapstructure](https://pkg.go.dev/github.com/mitchellh/mapstructure), [encoding/json](https://pkg.go.dev/encoding/json), or [encoding/xml](https://pkg.go.dev/encoding/xml).
 - For exchanging data between network services, use [Protocol Buffers](https://pkg.go.dev/google.golang.org/protobuf) or [Cap'n Proto](https://github.com/capnproto/go-capnp).
 
+If an API supplied by this library does some sort of type conversion but does not alter its data, then the returned object is READ ONLY. DO NOT attempt to write to them.
+
 ## Usage
 
 ### `bytebuilder.WriteObject`
