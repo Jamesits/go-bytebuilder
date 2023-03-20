@@ -34,3 +34,10 @@ func Skip(reader io.Reader, count int64) (int64, error) {
 		return io.CopyN(io.Discard, r, count)
 	}
 }
+
+// Copy an object to a byte buffer.
+func Copy[T any](b []byte, object *T) (n int, err error) {
+	objectSize := unsafe.Sizeof(*object)
+	s := newArbitraryByteArray(objectSize, uintptr(unsafe.Pointer(object)))
+	return copy(b, *s), nil
+}
