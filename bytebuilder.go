@@ -17,5 +17,5 @@ type ByteBuilder struct {
 func (b *ByteBuilder) WriteObject(obj any) (n int, err error) {
 	objectSize := reflect.TypeOf(obj).Size()
 	s := NewArbitraryByteArray(objectSize, uintptr((*emptyInterface)(unsafe.Pointer(&obj)).val))
-	return b.Write(*s)
+	return b.Write(s)
 }
