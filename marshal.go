@@ -25,7 +25,7 @@ func Unmarshal[T any](data []byte, v *T) (err error) {
 		err = SizeMismatch
 	}
 
-	s := newArbitraryByteArray(objectSize, uintptr(unsafe.Pointer(v)))
+	s := NewArbitraryByteArray(objectSize, uintptr(unsafe.Pointer(v)))
 	copy(*s, data) // copy() does size check itself
 	return
 }

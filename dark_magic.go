@@ -1,9 +1,6 @@
 package bytebuilder
 
-import (
-	"reflect"
-	"unsafe"
-)
+import "unsafe"
 
 // emptyInterface is the header for an interface{} value.
 //
@@ -11,14 +8,4 @@ import (
 // https://stackoverflow.com/a/57698257
 type emptyInterface struct {
 	typ, val unsafe.Pointer
-}
-
-// newArbitraryByteArray creates a (readonly) array from any memory location and length.
-func newArbitraryByteArray(length uintptr, ptr uintptr) *[]byte {
-	var ret []byte
-	sliceHeader := (*reflect.SliceHeader)(unsafe.Pointer(&ret))
-	sliceHeader.Cap = int(length)
-	sliceHeader.Len = int(length)
-	sliceHeader.Data = ptr
-	return &ret
 }
