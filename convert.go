@@ -14,7 +14,7 @@ func SliceCast[Ts, Td any](s []Ts) (d []Td) {
 	var sliceSrcMember Ts
 	var sliceDestMember Td
 
-	return unsafe.Slice((*Td)(unsafe.Pointer(&s[0])), len(s)*int(unsafe.Sizeof(sliceSrcMember))/int(unsafe.Sizeof(sliceDestMember)))
+	return unsafe.Slice((*Td)(unsafe.Pointer(unsafe.SliceData(s))), len(s)*int(unsafe.Sizeof(sliceSrcMember))/int(unsafe.Sizeof(sliceDestMember)))
 }
 
 // CarCdr returns a (readonly) object converted from your input slice, and the remaining (readonly) slice.
@@ -24,5 +24,5 @@ func CarCdr[T any](s []byte) (car *T, cdr []byte) {
 	var obj T
 	objSize := unsafe.Sizeof(obj)
 
-	return (*T)(unsafe.Pointer(&s[0])), unsafe.Slice(&s[objSize], len(s)-int(objSize))
+	return (*T)(unsafe.Pointer(unsafe.SliceData(s))), unsafe.Slice(&s[objSize], len(s)-int(objSize))
 }

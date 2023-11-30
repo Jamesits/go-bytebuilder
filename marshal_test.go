@@ -36,6 +36,7 @@ func TestMarshalUnmarshal(t *testing.T) {
 	assert.EqualValues(t, len(b), s1Size)
 
 	var s2 StructA
+	assert.NotEqual(t, s1, s2)
 	err = Unmarshal(b, &s2)
 	assert.NoError(t, err)
 
