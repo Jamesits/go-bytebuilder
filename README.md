@@ -74,8 +74,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/jamesits/go-bytebuilder"
 	"unsafe"
+
+	"github.com/jamesits/go-bytebuilder"
 )
 
 type SomeStruct struct {
@@ -101,6 +102,8 @@ func main() {
 	
 	// or use it as a generic buffer
 	_, _ = bb.Write([]byte{1, 1, 4, 5, 1, 4})
+	
+	fmt.Printf("Buffer: %v\n", bb.Bytes())
 }
 ```
 
