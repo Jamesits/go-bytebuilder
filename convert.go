@@ -24,5 +24,5 @@ func CarCdr[T any](s []byte) (car *T, cdr []byte) {
 	var obj T
 	objSize := unsafe.Sizeof(obj)
 
-	return (*T)(unsafe.Pointer(unsafe.SliceData(s))), unsafe.Slice(&s[objSize], len(s)-int(objSize))
+	return (*T)(unsafe.Pointer(unsafe.SliceData(s))), s[objSize:]
 }
